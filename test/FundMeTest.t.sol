@@ -3,13 +3,15 @@ pragma solidity ^0.8.18;
 
 import {Test, console} from "forge-std/Test.sol";
 import {FundMe} from "../src/FundMe.sol";
+import {DeployFundMe} from "../script/DeployFundMe.s.sol";
 
 contract FunMeTest is Test {
     FundMe fundMe;
 
     function setUp() external {
         // us -> FundMeTest -> FundMe
-        fundMe = new FundMe();
+        DeployFundMe deployFundMe = new DeployFundMe();
+        fundMe = deployFundMe.run();
     }
 
     function testMinimumDollarIsFive() public view {
@@ -17,9 +19,7 @@ contract FunMeTest is Test {
     }
 
     function testOwnerIsMsgSender() public view {
-        console.log("msg.sender: ", address(this));
-        console.log("i_owner: ", fundMe.i_owner());
-        assertEq(fundMe.i_owner(), address(this));
+        assertEq(fundMe.i_owner(), msg.sender);
     }
 
     // What can we do to work with addresses outside our system?
