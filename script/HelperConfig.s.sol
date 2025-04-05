@@ -11,13 +11,13 @@ import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
 contract HelperConfig is Script {
     // If we are on a local anvil chain, we want to deploy mocks
     // Otherwise, grab the existing address from the live network
+    struct NetworkConfig {
+        address priceFeedAddress; // ETH/USD price feed address
+    }
     NetworkConfig public activeNetworkConfig;
 
     uint8 public constant DECIMALS = 8;
     int256 public constant INITIAL_PRICE = 2000e8;
-    struct NetworkConfig {
-        address priceFeedAddress; // ETH/USD price feed address
-    }
 
     constructor() {
         if (block.chainid == 11155111) {
